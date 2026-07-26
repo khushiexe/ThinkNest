@@ -4,6 +4,7 @@ import bcrypt from "bcrypt" ;
 import {v2 as cloudinary} from "cloudinary" ;
 import tutorModel from "../models/tutorModel.js";
 import jwt from "jsonwebtoken" ;
+import sessionModel from "../models/sessionModel.js"; // Check your exact file path
 
 const addTutor = async (req, res) => {
     try {
@@ -139,5 +140,17 @@ const allTutors = async (req, res) => {
     }
   };
 
+  // API TO GET ALL SESSIONS LIST
+const sessionsAdmin = async (req, res) => {
+  try {
 
-export { addTutor , loginAdmin , allTutors};
+      const sessions = await sessionModel.find({});
+      res.json({ success: true, sessions });
+
+  } catch (error) {
+      console.log(error);
+      res.json({ success: false, message: error.message });
+  }
+};
+
+export { addTutor , loginAdmin , allTutors,sessionsAdmin};

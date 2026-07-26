@@ -9,11 +9,11 @@ import { RiUserLine } from "react-icons/ri";
 import { AppContext } from "../context/AppContext";
 import userImage from "../assets/user.jpg";
 
-const Header = () => {
+const Header = ({ aiMode, toggleHeader }) => {
   const [menuOpened, setMenuOpened] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
-  const { token, setToken ,userData} = useContext(AppContext);
+  const { token, setToken, userData } = useContext(AppContext);
 
   const navigate = useNavigate();
 
@@ -32,15 +32,28 @@ const Header = () => {
     <header className="w-full absolute top-0 left-0 right-0 z-50 bg-deep text-white py-3">
       <div className="max-padd-container flex items-center justify-between">
 
-        {/* ================= LOGO ================= */}
-        <Link to="/" className="bold-24 flex">
-          <span className="inline-flex items-center">
-            <span className="inline-flex items-center justify-center h-8 w-8 bg-secondary text-tertiary rounded-2xl -rotate-12">
-              T
+        {aiMode ? (
+          <button
+            onClick={toggleHeader}
+            className="bold-24 flex bg-transparent border-none cursor-pointer text-white"
+          >
+            <span className="inline-flex items-center">
+              <span className="inline-flex items-center justify-center h-8 w-8 bg-secondary text-tertiary rounded-2xl -rotate-12">
+                T
+              </span>
+              hinkNest
             </span>
-            hinkNest
-          </span>
-        </Link>
+          </button>
+        ) : (
+          <Link to="/" className="bold-24 flex">
+            <span className="inline-flex items-center">
+              <span className="inline-flex items-center justify-center h-8 w-8 bg-secondary text-tertiary rounded-2xl -rotate-12">
+                T
+              </span>
+              hinkNest
+            </span>
+          </Link>
+        )}
 
         {/* ================= NAVBAR ================= */}
         <div className="mx-auto">
@@ -71,7 +84,7 @@ const Header = () => {
             <div className="relative">
 
               <img
-               src={userData?.image || userImage}
+                src={userData?.image || userImage}
                 alt="User"
                 className="w-12 h-12 rounded-full object-cover cursor-pointer"
                 onClick={() => setShowMenu(!showMenu)}

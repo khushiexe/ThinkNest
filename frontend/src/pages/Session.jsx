@@ -57,12 +57,15 @@ useEffect(() => {
           minute: "2-digit",
         });
 
+        //check if slot is available(not booked);
+        const isSlotAvailable = !tutorInfo.slots_booked?.[slotDate]?.includes(slotTime);
+        if (isSlotAvailable) {
         daySlots.push({
           datetime: new Date(startTime),
           time: slotTime,
           dateString: slotDate,
         });
-
+      }
         startTime.setMinutes(startTime.getMinutes() + 30);
       }
 
@@ -86,7 +89,6 @@ useEffect(() => {
         toast.warn("Login to book session");
         return navigate("/login");
     }
-    
     // Ensure the user actually selected a time before hitting the backend
     if (!selectedTime) {
         toast.warn("Please select a time slot first");
@@ -102,18 +104,11 @@ useEffect(() => {
   
       const slotDate = `${day}/${month}/${year}`
   
-      const { data } = await axios.post(
-          backendUrl + "/api/user/book-session",
-          {
-              tutId,
-              slotDate,
-              slotTime: selectedTime
-          }
-        );
-
+      const { data } = await axios.post( backendUrl + "/api/user/book-session",{tutId, slotDate, slotTime: selectedTime}, 
+        {headers : {atoken: token}});
         if (data.success) {
-            toast.success("Session booked successfully!");
-            // Optional: navigate the user to their "My Sessions" page
+            toast.success(data.message);
+            getTutorsData() ;
             navigate("/my-sessions"); 
         } else {
             toast.error(data.message);

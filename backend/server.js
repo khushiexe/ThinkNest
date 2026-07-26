@@ -6,6 +6,10 @@ import connectCloudinary from "./config/cloudinary.js";
 import adminRouter from "./routes/adminRoute.js";
 import tutorRouter from "./routes/tutorRoute.js";
 import userRouter from "./routes/userRoute.js";
+import chatRouter from "./routes/chatRoute.js";
+import dotenv from "dotenv";
+dotenv.config();
+import chatHistoryRouter from "./routes/chatHistoryRoute.js";
 
 // Initialize Express application
 const app = express();
@@ -27,6 +31,8 @@ app.get("/", (req, res) => {
 app.use('/api/admin',adminRouter) ;
 app.use('/api/tutor',tutorRouter) ;
 app.use('/api/user',userRouter) ;
+app.use("/api/chat", chatRouter);
+app.use("/api/chat-history", chatHistoryRouter);
 
 // Start the server
 app.listen(port, () => {

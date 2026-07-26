@@ -19,6 +19,7 @@ function Navbar({ containerStyles, toggleMenu, menuOpened }) {
   const navItems = [
     { to: '/', label: 'Home' },
     { to: '/tutors', label: 'Tutors' },
+    { to: '/ai', label: '✨ AI Tutor' },
     { to: '/blog', label: 'Blog' },
     { to: '/contact', label: 'Contact' }
   ];
