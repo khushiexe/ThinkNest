@@ -5,6 +5,7 @@ import App from './App.jsx'
 import {BrowserRouter} from "react-router-dom" ;
 import AppContextProvider from './context/AppContext.jsx';
 import { ChatProvider } from "./context/ChatContext";
+import { QuizProvider } from './context/QuizContext.jsx';
 
 
 createRoot(document.getElementById('root')).render(
@@ -12,9 +13,11 @@ createRoot(document.getElementById('root')).render(
   // display the correct page without reloading the browser.
   <BrowserRouter>
     <AppContextProvider>
-    <ChatProvider>
+    <QuizProvider>
+      <ChatProvider>
         <App />
-    </ChatProvider>
+      </ChatProvider>
+    </QuizProvider>
     </AppContextProvider>
-  </BrowserRouter>,
+  </BrowserRouter>
 )

@@ -4,6 +4,7 @@ import Message from "./Message";
 import ChatInput from "./ChatInput";
 import { sendMessage } from "../../api/chat";
 import { useChat } from "../../context/ChatContext";
+import Quiz from "../../pages/Quiz";
 
 const Chatbot = () => {
   const {
@@ -15,12 +16,23 @@ const Chatbot = () => {
   } = useChat();
 
   const [loading, setLoading] = useState(false);
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [quizKey, setQuizKey] = useState(0);
 
   const bottomRef = useRef(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [currentChat?.messages, loading]);
+  useEffect(() => {
+
+    if (!currentChat) {
+  
+      setShowQuiz(false);
+  
+    }
+  
+  }, [currentChat]);
 
   const handleSend = async (text) => {
     if (!text.trim() || loading) return;
@@ -76,26 +88,44 @@ const Chatbot = () => {
       setLoading(false);
     }
   };
+  const handleNewChat = async () => {
+
+    setShowQuiz(false);
+  
+    await createNewChat();
+  
+  };
 
   return (
     <div className="bg-white rounded-3xl shadow-lg border border-gray-200 h-full flex flex-col overflow-hidden">
-      {(currentChat?.messages?.length || 0) === 0 ? (
-        <EmptyState onPromptClick={handleSend} />
-      ) : (
-        <div className="flex-1 overflow-y-auto p-6">
-          {currentChat.messages.map((message) => (
-            <Message
-              key={message.id}
-              role={message.role}
-              text={message.text}
-            />
-          ))}
+      {showQuiz ? (
+ <Quiz
+ key={quizKey}
+ onHome={() => setShowQuiz(false)}
+/>
+) : (currentChat?.messages?.length || 0) === 0 ? (
+  <EmptyState
+    onPromptClick={handleSend}
+    onQuizClick={() => {
+      setQuizKey((prev) => prev + 1);
+      setShowQuiz(true);
+    }}
+  />
+) : (
+  <div className="flex-1 overflow-y-auto p-6">
+    {currentChat.messages.map((message) => (
+      <Message
+        key={message.id}
+        role={message.role}
+        text={message.text}
+      />
+    ))}
 
-          {loading && <Message role="assistant" text="⏳ Thinking..." />}
+    {loading && <Message role="assistant" text="⏳ Thinking..." />}
 
-          <div ref={bottomRef} />
-        </div>
-      )}
+    <div ref={bottomRef} />
+  </div>
+)}
 
       <ChatInput onSend={handleSend} loading={loading} />
     </div>

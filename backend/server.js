@@ -10,6 +10,7 @@ import chatRouter from "./routes/chatRoute.js";
 import dotenv from "dotenv";
 dotenv.config();
 import chatHistoryRouter from "./routes/chatHistoryRoute.js";
+import quizRouter from "./routes/quizRoute.js"; 
 
 // Initialize Express application
 const app = express();
@@ -33,6 +34,7 @@ app.use('/api/tutor',tutorRouter) ;
 app.use('/api/user',userRouter) ;
 app.use("/api/chat", chatRouter);
 app.use("/api/chat-history", chatHistoryRouter);
+app.use("/api/quiz",quizRouter) ;
 
 // Start the server
 app.listen(port, () => {

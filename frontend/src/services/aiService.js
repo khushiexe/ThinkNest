@@ -4,7 +4,7 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const getHeaders = () => ({
   headers: {
-    localStorage.setItem("token", data.token);
+    atoken: localStorage.getItem("atoken"),
   },
 });
 

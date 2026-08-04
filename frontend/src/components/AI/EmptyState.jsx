@@ -33,7 +33,7 @@ const actions = [
   },
 ];
 
-const EmptyState = ({ onPromptClick }) => {
+const EmptyState = ({ onPromptClick , onQuizClick }) => {
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-6 py-10">
 
@@ -59,7 +59,14 @@ const EmptyState = ({ onPromptClick }) => {
 
           <button
             key={item.title}
-            onClick={() => onPromptClick(item.prompt)}
+            onClick={() => {
+              if (item.title === "Quiz Me") {
+                console.log("Quiz Clicked");
+                onQuizClick();
+              } else {
+                onPromptClick(item.prompt);
+              }
+            }}
             className="
               bg-white
               border
